@@ -1,0 +1,21 @@
+---
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    restart: always
+    container_name: postgres
+    ports:
+      - "${POSTGRES_PORT:-6500}:5432"
+    environment:
+      PGUSER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: user
+      POSTGRES_DB: postgres
+    volumes:
+      - ./temp/pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -h postgres"
+      interval: 1s
+      timeout: 5s
+      retries: 10
