@@ -4,7 +4,7 @@ from internal.dependencies.user import UserServiceDependency
 from internal.dto.user import UserDTO
 
 
-USER_ROUTER = APIRouter()
+USER_ROUTER = APIRouter(tags=['User'])
 
 
 @USER_ROUTER.get('/users/{user_id}')

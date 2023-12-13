@@ -1,0 +1,1 @@
+from internal.dependencies.product import ProductRepositoryDependency

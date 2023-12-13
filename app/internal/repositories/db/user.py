@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from tortoise.exceptions import DoesNotExist
+from tortoise.exceptions import DoesNotExist, IntegrityError
 
 from internal.core.utils import check_password, hash_password
 from internal.dto.auth import CredentialsDTO, RegisterDTO
@@ -23,7 +23,10 @@ class UserRepository(BaseRepository):
             raise HTTPException(status_code=404, detail='User does not exist') from e
 
     async def create(self, user_data: RegisterDTO) -> UserDTO:
-        user = await self.model.create(**user_data.model_dump(exclude=('password',)), password_hash=hash_password(user_data.password))
+        try:
+            user = await self.model.create(**user_data.model_dump(exclude=('password',)), password_hash=hash_password(user_data.password))
+        except IntegrityError as e:
+            raise HTTPException(status_code=409, detail='User already exists') from e
         return UserDTO.from_orm(user)
 
     async def check_user_credentials(self, credentials: CredentialsDTO) -> bool:

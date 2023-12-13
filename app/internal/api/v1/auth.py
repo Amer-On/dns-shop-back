@@ -4,7 +4,7 @@ from internal.dependencies.user import UserServiceDependency
 from internal.dto.auth import CredentialsDTO, RegisterDTO
 
 
-AUTH_ROUTER = APIRouter()
+AUTH_ROUTER = APIRouter(tags=['Auth'])
 
 
 @AUTH_ROUTER.post('/login')
