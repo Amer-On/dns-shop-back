@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException
 
 import config
@@ -27,6 +28,13 @@ def add_exception_handlers(app: FastAPI):
 def add_middlewares(app: FastAPI):
     app.add_middleware(LoggingMiddleware)
     app.add_middleware(AddHeaderMiddleware)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=config.ORIGINS,
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*'],
+    )
 
 
 @asynccontextmanager
