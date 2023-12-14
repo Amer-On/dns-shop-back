@@ -7,11 +7,16 @@ from internal.core.types import ProductCategoryEnum
 from internal.repositories.db.models.product import Product
 
 
-_CreateProductDTOBase = pydantic_model_creator(Product, name='Create product DTO', exclude=('id', 'images'))
+_CreateProductDTOBase = pydantic_model_creator(
+    Product,
+    name='Create product DTO',
+    exclude=('id', 'images', 'category'),
+)
 
 
 class CreateProductDTO(_CreateProductDTOBase):
     images: list[str]
+    category: Optional[ProductCategoryEnum] = None
 
 
 ProductDTO = pydantic_model_creator(Product, name='Product DTO')
