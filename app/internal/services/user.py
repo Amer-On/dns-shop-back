@@ -11,7 +11,7 @@ class UserService:
         self.repository = user_repository
 
     async def login(self, data: CredentialsDTO) -> str:
-        if self.repository.check_user_credentials(data):
+        if await self.repository.check_user_credentials(data):
             return encode_access_token(data.login)
         raise HTTPException(status_code=403, detail='Invalid credentials')
 
